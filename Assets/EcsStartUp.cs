@@ -1,8 +1,11 @@
-using System;
+using GameLogic.Gravity.Systems;
+using GameLogic.InitGeometry.Systems;
 using Leopotam.EcsLite;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class EcsStartUp : MonoBehaviour {
+    [SerializeField] private SceneSettings _sceneSettings;
     private EcsWorld _world;
     private IEcsSystems _systems;
 
@@ -10,14 +13,13 @@ public class EcsStartUp : MonoBehaviour {
 
     private void Start() {
         _world = new EcsWorld();
-        _systems = new EcsSystems(_world);
+        _systems = new EcsSystems(_world, _sceneSettings);
+        AddSystems();
         _systems
 #if UNITY_EDITOR
-            .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem());
+            .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif
-        AddInjections();
-        AddOneFrames();
-        AddSystems();
+        .Init();
     }
 
     private void Update() {
@@ -36,14 +38,11 @@ public class EcsStartUp : MonoBehaviour {
     #endregion MonoBehaviour
 
     private void AddSystems() {
-        throw new NotImplementedException();
-    }
-
-    private void AddOneFrames() {
-        throw new NotImplementedException();
-    }
-
-    private void AddInjections() {
-        throw new NotImplementedException();
+        _systems.
+            Add(new InitGameSystem()).
+            Add(new CompositeGeometrySystem()).
+            Add(new InitGravitySourceSystem()).
+            Add(new InitializeGeometrySystem()).
+            Add(new GravitySystem());
     }
 }
