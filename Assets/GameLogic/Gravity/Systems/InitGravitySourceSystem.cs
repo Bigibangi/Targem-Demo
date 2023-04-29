@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GameLogic.Gravity.Systems {
 
-    public class InitGravitySourceSystem : IEcsInitSystem, IEcsRunSystem {
+    public sealed class InitGravitySourceSystem : IEcsInitSystem, IEcsRunSystem {
         private EcsWorld _world;
         private EcsFilter _gravityInitFilter;
         private EcsPool<InitGravitySourceRequest> _requestsPool;

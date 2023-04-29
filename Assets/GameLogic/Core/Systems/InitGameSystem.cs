@@ -1,8 +1,7 @@
 using GameLogic.Gravity.Components;
 using Leopotam.EcsLite;
-using UnityEngine;
 
-public class InitGameSystem : IEcsInitSystem {
+public sealed class InitGameSystem : IEcsInitSystem {
 
     public void Init(IEcsSystems systems) {
         var world = systems.GetWorld();

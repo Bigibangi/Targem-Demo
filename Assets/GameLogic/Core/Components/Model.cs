@@ -1,5 +1,5 @@
 using UnityEngine;
 
 internal struct Model {
-    public Transform model;
+    public Transform modelTransform;
 }

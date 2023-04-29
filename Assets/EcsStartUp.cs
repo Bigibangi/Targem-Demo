@@ -1,6 +1,8 @@
 using GameLogic.Gravity.Systems;
 using GameLogic.InitGeometry.Systems;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
+using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -19,6 +21,7 @@ public class EcsStartUp : MonoBehaviour {
 #if UNITY_EDITOR
             .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif
+        .Inject(_world)
         .Init();
     }
 
