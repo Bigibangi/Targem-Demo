@@ -22,7 +22,7 @@ namespace GameLogic.InitGeometry.Systems {
                 ref var transform = ref modelComponent.modelTransform;
                 var cube = Object.Instantiate(_sceneSettings.GeometryPrefab);
                 transform = cube.transform;
-                transform.localPosition = Random.insideUnitSphere * 10f;
+                transform.localPosition = Random.insideUnitSphere * 100f;
             }
         }
 
