@@ -1,5 +1,4 @@
 using GameLogic.Gravity.Components;
-using GameLogic.InitGeometry.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
 

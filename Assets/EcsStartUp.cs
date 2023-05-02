@@ -2,7 +2,6 @@ using GameLogic.Gravity.Systems;
 using GameLogic.InitGeometry.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]

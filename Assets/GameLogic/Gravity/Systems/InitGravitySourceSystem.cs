@@ -26,6 +26,8 @@ namespace GameLogic.Gravity.Systems {
                 gravitySource.position = Vector3.zero;
                 var centerOfMass = Object.Instantiate(_sceneSettings.CenterOfMass);
                 centerOfMass.transform.position = gravitySource.position;
+                var entityComponent = centerOfMass.AddComponent<EntityReference>();
+                entityComponent.entityPack = _world.PackEntityWithWorld(entity);
                 _requestsPool.Del(entity);
             }
         }
