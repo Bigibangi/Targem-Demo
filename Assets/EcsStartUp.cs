@@ -1,3 +1,4 @@
+using Assets.GameLogic.Core.Systems;
 using GameLogic.Gravity.Systems;
 using GameLogic.InitGeometry.Systems;
 using Leopotam.EcsLite;
@@ -7,20 +8,20 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class EcsStartUp : MonoBehaviour {
     [SerializeField] private SceneSettings _sceneSettings;
-    private EcsWorld _world;
     private IEcsSystems _systems;
 
     #region MonoBehaviour
 
     private void Start() {
-        _world = new EcsWorld();
-        _systems = new EcsSystems(_world, _sceneSettings);
+        var world = new EcsWorld();
+        _systems = new EcsSystems(world, _sceneSettings);
         AddSystems();
         _systems
 #if UNITY_EDITOR
             .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif
-        .Inject(_world)
+        .Inject(world)
+        .Inject(_sceneSettings)
         .Init();
     }
 
@@ -30,10 +31,9 @@ public class EcsStartUp : MonoBehaviour {
 
     private void OnDestroy() {
         if (_systems != null) {
+            _systems.GetWorld()?.Destroy();
             _systems.Destroy();
             _systems = null;
-            _world.Destroy();
-            _world = null;
         }
     }
 
@@ -42,9 +42,10 @@ public class EcsStartUp : MonoBehaviour {
     private void AddSystems() {
         _systems.
             Add(new InitGameSystem()).
+            Add(new InitModelRequestSystem()).
             Add(new CompositeGeometrySystem()).
             Add(new InitGravitySourceSystem()).
-            Add(new InitializeGeometrySystem()).
+            Add(new CollisionHandlerSystem()).
             Add(new GravitySystem());
     }
 }

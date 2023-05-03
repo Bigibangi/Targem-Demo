@@ -9,7 +9,6 @@ public sealed class GravitySystem : IEcsRunSystem {
     private readonly EcsWorldInject _defaultWorld = default;
 
     public void Run(IEcsSystems systems) {
-        var a = _defaultWorld.Value;
         foreach (var gravityEntity in _gravitySources.Value) {
             ref var gravity = ref _gravitySources.Pools.Inc1.Get(gravityEntity);
             ref var g = ref gravity.g;
