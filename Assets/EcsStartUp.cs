@@ -1,5 +1,3 @@
-using Assets.GameLogic.Core.Systems;
-using GameLogic.Gravity.Systems;
 using GameLogic.InitGeometry.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -42,9 +40,7 @@ public class EcsStartUp : MonoBehaviour {
     private void AddSystems() {
         _systems.
             Add(new InitGameSystem()).
-            Add(new InitModelRequestSystem()).
             Add(new CompositeGeometrySystem()).
-            Add(new InitGravitySourceSystem()).
             Add(new CollisionHandlerSystem()).
             Add(new GravitySystem());
     }

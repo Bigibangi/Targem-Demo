@@ -1,5 +1,4 @@
-using GameLogic.Core.Components;
-using GameLogic.Gravity.Components;
+using GameLogic.Core;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -10,17 +9,15 @@ public sealed class InitGameSystem : IEcsInitSystem {
 
     public void Init(IEcsSystems systems) {
         var entity = _defaultWorld.Value.NewEntity();
-        var requestPool = _defaultWorld.Value.GetPool<InitGravitySourceRequest>();
-        var initModelRequestPool = _defaultWorld.Value.GetPool<InitModelRequest>();
-        requestPool.Add(entity);
-        ref var modelRequest = ref initModelRequestPool.Add(entity);
-        modelRequest.prefab = _sceneSettings.Value.CenterOfMass;
+        var packedEntity = _defaultWorld.Value.PackEntityWithWorld(entity);
+        var gsFactory = new GravitySourceFactory(packedEntity,_sceneSettings.Value.CenterOfMass, Vector3.zero);
+        gsFactory.InitializeEntityWithPrefab();
         var count = _sceneSettings.Value.Count;
         for (int i = 0; i < count; i++) {
             var geometry = _defaultWorld.Value.NewEntity();
-            ref var geometryModelRequest = ref initModelRequestPool.Add(geometry);
-            geometryModelRequest.prefab = _sceneSettings.Value.GeometryPrefab;
-            geometryModelRequest.position = Random.insideUnitSphere * 10f;
+            packedEntity = _defaultWorld.Value.PackEntityWithWorld(geometry);
+            var gFactory = new GeometryFactory(packedEntity,_sceneSettings.Value.GeometryPrefab, Random.insideUnitSphere * 10f);
+            gFactory.InitializeEntityWithPrefab();
         }
     }
 }
