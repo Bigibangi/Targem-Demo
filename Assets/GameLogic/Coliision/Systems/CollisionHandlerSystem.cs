@@ -11,9 +11,6 @@ public sealed class CollisionHandlerSystem : IEcsRunSystem {
             ref var collision = ref _collisionedObject.Pools.Inc1.Get(collisionRequest);
             var pack = collision.senderGameobject;
             pack.Unpack(out var world, out var entity);
-            Debug.Log(world.ToString() + " " + entity);
-            Debug.Log(collision.targetGameobject);
-            Debug.Log(collision.contactPoint);
             _collisionPool.Value.Del(collisionRequest);
         }
     }
