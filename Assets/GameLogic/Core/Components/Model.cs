@@ -1,5 +1,8 @@
 using UnityEngine;
 
-internal struct Model {
-    public Transform modelTransform;
+namespace GameLogic.Core.Components {
+
+    internal struct Model {
+        public Transform modelTransform;
+    }
 }

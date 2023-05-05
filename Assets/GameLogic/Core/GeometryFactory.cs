@@ -1,4 +1,7 @@
-﻿using GameLogic.Gravity.Components;
+﻿using GameLogic.Core.Components;
+using GameLogic.Gravity.Components;
+using GameLogic.Movement.Components;
+using GameLogic.Physics.Components;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -12,8 +15,10 @@ namespace GameLogic.Core {
         public override void InitializeEntityWithPrefab() {
             base.InitializeEntityWithPrefab();
             _packedEntity.Unpack(out var world, out var entity);
-            var attractablePool = world.GetPool<Attractable>();
-            attractablePool.Add(entity);
+            world.GetPool<Attractable>().Add(entity);
+            world.GetPool<Forceble>().Add(entity);
+            world.GetPool<Movable>().Add(entity);
+            world.GetPool<Direction>().Add(entity);
         }
     }
 }

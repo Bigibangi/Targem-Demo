@@ -1,31 +1,33 @@
+using GameLogic.Core.Components;
 using GameLogic.Gravity.Components;
+using GameLogic.Movement.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using System.Linq;
 using UnityEngine;
 
 public sealed class GravitySystem : IEcsRunSystem {
-    private readonly EcsFilterInject<Inc<Model, Attractable>> _attractables = default;
+    private readonly EcsFilterInject<Inc<Model, Attractable, Movable>> _attractablesFilter = default;
     private readonly EcsFilterInject<Inc<GravitySource>> _gravitySources = default;
-    private readonly EcsWorldInject _defaultWorld = default;
+    private readonly EcsPoolInject<Direction> _directions;
 
     public void Run(IEcsSystems systems) {
-        foreach (var gravityEntity in _gravitySources.Value) {
-            ref var gravity = ref _gravitySources.Pools.Inc1.Get(gravityEntity);
-            ref var g = ref gravity.g;
-            ref var position = ref gravity.position;
-            foreach (var entity in _attractables.Value) {
-                ref var model = ref _attractables.Pools.Inc1.Get(entity);
-                ref var attractable = ref _attractables.Pools.Inc2.Get(entity);
-                ref var velocity = ref attractable.gravityForce;
-                var modelPosition = model.modelTransform.localPosition;
-                var direction = position - modelPosition;
-                var maxSpeedChange = g * Time.deltaTime;
-                var desiredVelocity = velocity + direction.normalized * maxSpeedChange;
-                velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
-                velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
-                velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
-                model.modelTransform.localPosition += desiredVelocity * Time.deltaTime;
-            }
+        var gravitySource = _gravitySources.Value.GetRawEntities().First();
+        ref var gravity = ref _gravitySources.Pools.Inc1.Get(gravitySource);
+        ref var g = ref gravity.g;
+        ref var position = ref gravity.position;
+        foreach (var entity in _attractablesFilter.Value) {
+            ref var model = ref _attractablesFilter.Pools.Inc1.Get(entity);
+            ref var movable = ref _attractablesFilter.Pools.Inc3.Get(entity);
+            ref var directionComponent = ref _directions.Value.Get(entity);
+            ref var direction = ref directionComponent.direction;
+            ref var velocity = ref movable.velocity;
+            var modelPosition = model.modelTransform.localPosition;
+            direction = position - modelPosition;
+            var maxSpeedChange = g * Time.deltaTime;
+            var desiredVelocity = direction.normalized * maxSpeedChange;
+            if (Vector3.Dot(velocity, desiredVelocity) == 0) velocity = Vector3.zero;
+            velocity += desiredVelocity;
         }
     }
 }

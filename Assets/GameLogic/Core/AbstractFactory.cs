@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using GameLogic.Core.Components;
+using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace GameLogic.Core {
