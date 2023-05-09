@@ -41,6 +41,7 @@ public class EcsStartUp : MonoBehaviour {
     private void AddSystems() {
         _systems.
             Add(new InitGameSystem()).
+            Add(new CompositeGeometrySystem()).
             Add(new CollisionHandlerSystem()).
             Add(new MovementSystem()).
             Add(new GravitySystem()).
