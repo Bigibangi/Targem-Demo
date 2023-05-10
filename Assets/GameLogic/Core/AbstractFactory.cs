@@ -18,6 +18,9 @@ namespace GameLogic.Core {
             _position = position;
         }
 
+        protected AbstractFactory() {
+        }
+
         public virtual void InitializeEntityWithPrefab() {
             _packedEntity.Unpack(out var defaultWorld, out var entity);
             var modelPool = defaultWorld.GetPool<Model>();

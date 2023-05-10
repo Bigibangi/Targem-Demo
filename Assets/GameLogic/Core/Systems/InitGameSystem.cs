@@ -16,7 +16,11 @@ public sealed class InitGameSystem : IEcsInitSystem {
         for (int i = 0; i < count; i++) {
             var geometry = _defaultWorld.Value.NewEntity();
             packedEntity = _defaultWorld.Value.PackEntityWithWorld(geometry);
-            var gFactory = new GeometryFactory(packedEntity,_sceneSettings.Value.GeometryPrefab, Random.insideUnitSphere * 10f);
+            var gFactory = new GeometryFactory(
+                packedEntity,
+                _sceneSettings.Value.GeometryMesh,
+                _sceneSettings.Value.GeometryMaterial,
+                Random.insideUnitSphere * 10f);
             gFactory.InitializeEntityWithPrefab();
         }
     }
