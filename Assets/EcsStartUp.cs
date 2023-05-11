@@ -44,7 +44,6 @@ public class EcsStartUp : MonoBehaviour {
             Add(new CollisionHandlerSystem()).
             Add(new MovementSystem()).
             Add(new GravitySystem()).
-            Add(new UpdateModelJobSystem()).
-            Add(new UpdateViewSystem());
+            Add(new UpdateModelJobSystem());
     }
 }

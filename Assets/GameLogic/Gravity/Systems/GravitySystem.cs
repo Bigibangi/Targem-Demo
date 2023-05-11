@@ -4,6 +4,7 @@ using GameLogic.Movement.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public sealed class GravitySystem : IEcsRunSystem {
@@ -15,14 +16,14 @@ public sealed class GravitySystem : IEcsRunSystem {
         var gravitySource = _gravitySources.Value.GetRawEntities().First();
         ref var gravity = ref _gravitySources.Pools.Inc1.Get(gravitySource);
         ref var g = ref gravity.g;
-        ref var position = ref gravity.position;
+        var position = new float3(gravity.position.x,gravity.position.y,gravity.position.z);
         foreach (var entity in _attractablesFilter.Value) {
             ref var model = ref _attractablesFilter.Pools.Inc1.Get(entity);
             ref var movable = ref _attractablesFilter.Pools.Inc3.Get(entity);
             ref var directionComponent = ref _directions.Value.Get(entity);
             ref var direction = ref directionComponent.direction;
             ref var velocity = ref movable.velocity;
-            var modelPosition = model.modelTransform.localPosition;
+            var modelPosition = model.root.worldPosition;
             direction = position - modelPosition;
             var maxSpeedChange = g * Time.deltaTime;
             var desiredVelocity = direction.normalized * maxSpeedChange;

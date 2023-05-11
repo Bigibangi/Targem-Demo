@@ -2,7 +2,9 @@
 using GameLogic.Movement.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Unity.Mathematics;
 using UnityEngine;
+using static Unity.Mathematics.math;
 
 namespace GameLogic.Movement.Systems {
 
@@ -19,7 +21,7 @@ namespace GameLogic.Movement.Systems {
                 ref var movableComponent = ref _movables.Value.Get(entity) ;
 
                 ref var direction = ref directionComponent.direction;
-                ref var transform = ref modelComponent.modelTransform;
+                ref var worldPosition = ref modelComponent.root.worldPosition;
                 ref var velocity = ref movableComponent.velocity;
                 ref var maxAcceleration = ref movableComponent.maxAcceleration;
                 ref var accelerationForce = ref movableComponent.accelerationForce;
@@ -28,11 +30,12 @@ namespace GameLogic.Movement.Systems {
                 velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
                 velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
                 velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
-                var displacement = new Vector3(
-                    velocity.x,
-                    velocity.y,
-                    velocity.z) * Time.deltaTime;
-                transform.localPosition += displacement;
+                float time = Time.deltaTime;
+                var displacement = float3(velocity.x,velocity.y, velocity.z);
+                displacement.x = mul(displacement.x, time);
+                displacement.y = mul(displacement.y, time);
+                displacement.z = mul(displacement.z, time);
+                worldPosition += displacement;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using GameLogic.Core.Components;
 using Leopotam.EcsLite;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace GameLogic.Core {
@@ -8,6 +9,7 @@ namespace GameLogic.Core {
         protected EcsPackedEntityWithWorld _packedEntity;
         protected GameObject _prefab;
         protected Vector3 _position;
+        protected GameObject _instance;
 
         protected AbstractFactory(
             EcsPackedEntityWithWorld packedEntity,
@@ -25,10 +27,14 @@ namespace GameLogic.Core {
             _packedEntity.Unpack(out var defaultWorld, out var entity);
             var modelPool = defaultWorld.GetPool<Model>();
             ref var model = ref modelPool.Add(entity);
-            var obj = Object.Instantiate(_prefab,_position,Quaternion.identity);
-            var ecsRef = obj.AddComponent<EntityReference>();
+            _instance = Object.Instantiate(_prefab, _position, Quaternion.identity);
+            var ecsRef = _instance.AddComponent<EntityReference>();
             ecsRef.entityPack = _packedEntity;
-            model.modelTransform = obj.transform;
+            var root = new ModelPart{
+                worldPosition = _position,
+                worldRotation = quaternion.identity
+            };
+            model.root = root;
         }
     }
 }
