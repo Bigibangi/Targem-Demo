@@ -10,6 +10,7 @@ public class SceneSettings : ScriptableObject {
 
     public GameObject GeometryPrefab => _geometryPrefab;
     public GameObject CenterOfMass => _centerOfMassPrefab;
+
     public int Count => count;
     public int Depth => depth;
     public int ChildCount => childCount;

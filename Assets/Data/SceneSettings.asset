@@ -15,7 +15,7 @@ MonoBehaviour:
   _geometryPrefab: {fileID: 848154943797644564, guid: bab03896685389a40a0ca911b58d3c28, type: 3}
   _centerOfMassPrefab: {fileID: 9138583717783392903, guid: 941ed724f94c59e4ab55aacb79cfac7f, type: 3}
   _geometryMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  _geometryMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  _material: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   count: 2
   depth: 4
   childCount: 3

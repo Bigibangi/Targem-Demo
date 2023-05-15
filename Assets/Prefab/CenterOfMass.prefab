@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9138583717783393017}
   - component: {fileID: 9138583717783393016}
   - component: {fileID: -8044659441343161574}
+  - component: {fileID: -6901915221344335006}
   m_Layer: 0
   m_Name: CenterOfMass
   m_TagString: Untagged
@@ -109,3 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 9138583717783393016}
+--- !u!114 &-6901915221344335006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138583717783392903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31dd44c73600e744a2e9d3050f8c04e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
