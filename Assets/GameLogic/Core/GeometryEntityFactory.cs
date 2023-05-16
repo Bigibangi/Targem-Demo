@@ -8,6 +8,7 @@ using Unity.Mathematics;
 
 using static Unity.Mathematics.math;
 using quaternion = Unity.Mathematics.quaternion;
+using Random = UnityEngine.Random;
 
 namespace GameLogic.Core {
 
@@ -34,7 +35,9 @@ namespace GameLogic.Core {
             world.GetPool<Forceble>().Add(entity);
             world.GetPool<Movable>().Add(entity);
             world.GetPool<Direction>().Add(entity);
+            world.GetPool<UpdateModelJobTag>().Add(entity);
             ref var model = ref world.GetPool<Model>().Get(entity);
+            model.root.worldPosition = Random.insideUnitSphere * 10f;
             model.depth = 2;
             model.parts = new NativeArray<ModelPart>[model.depth];
             model.matrices = new NativeArray<float4x4>[model.depth];
@@ -55,6 +58,7 @@ namespace GameLogic.Core {
 
         private ModelPart CreatePart(int ci) =>
             new ModelPart {
+                worldPosition = directions[ci],
                 worldRotation = rotations[ci]
             };
     }

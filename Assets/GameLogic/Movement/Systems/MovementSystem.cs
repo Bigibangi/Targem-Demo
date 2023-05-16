@@ -30,11 +30,8 @@ namespace GameLogic.Movement.Systems {
                 velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
                 velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
                 velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
-                float time = Time.deltaTime;
-                var displacement = float3(velocity.x,velocity.y, velocity.z);
-                displacement.x = mul(displacement.x, time);
-                displacement.y = mul(displacement.y, time);
-                displacement.z = mul(displacement.z, time);
+                var displacement = float3(velocity);
+                displacement *= Time.deltaTime;
                 worldPosition += displacement;
             }
         }

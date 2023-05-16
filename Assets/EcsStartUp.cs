@@ -1,6 +1,7 @@
 using GameLogic.Core.Components;
 using GameLogic.Core.Systems;
 using GameLogic.Movement.Systems;
+using GameLogic.Physics.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -48,6 +49,7 @@ public class EcsStartUp : MonoBehaviour {
     private void AddSystems() {
         _systems.
             Add(new InitGameSystem()).
+            Add(new AddForceSystem()).
             Add(new CollisionHandlerSystem()).
             Add(new MovementSystem()).
             Add(new GravitySystem()).

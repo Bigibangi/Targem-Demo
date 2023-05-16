@@ -25,7 +25,7 @@ public class ProceduralDraw : MonoBehaviour {
             _matricesBuffers = new ComputeBuffer[_depth];
             var stride = 16 * 4;
             for (int i = 0, length = 1; i < model.parts.Length; i++, length *= 5) {
-                _matricesBuffers[i] = new ComputeBuffer(model.parts.Length, stride);
+                _matricesBuffers[i] = new ComputeBuffer(length, stride);
             }
         }
         propertyBlock ??= new MaterialPropertyBlock();
@@ -52,6 +52,7 @@ public class ProceduralDraw : MonoBehaviour {
         if (gameObject.TryGetComponent<EntityReference>(out var entityReference)) {
             entityReference.entityPack.Unpack(out var world, out var entity);
             var model = world.GetPool<Model>().Get(entity);
+            gameObject.transform.localPosition = model.root.worldPosition;
             var bounds = new Bounds(model.root.worldPosition,Vector3.one * model.depth);
             if (_matricesBuffers == null) { OnValidate(); }
             for (int i = 0; i < _matricesBuffers.Length; i++) {

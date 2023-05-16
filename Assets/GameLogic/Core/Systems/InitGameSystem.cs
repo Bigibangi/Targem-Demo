@@ -12,7 +12,7 @@ public sealed class InitGameSystem : IEcsInitSystem {
             _sceneSettings.Value.CenterOfMass);
         gsFactory.InstatiateView();
         var count = _sceneSettings.Value.Count;
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < count; i++) {
             var gFactory = new GeometryViewFactory(
                 new GeometryEntityFactory(_defaultWorld.Value).CreateEntity(),
                 _sceneSettings.Value.GeometryPrefab);

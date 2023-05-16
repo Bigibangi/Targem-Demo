@@ -25,7 +25,7 @@ public sealed class GravitySystem : IEcsRunSystem {
             var modelPosition = model.root.worldPosition;
             direction = gravityModel.root.worldPosition - modelPosition;
             var maxSpeedChange = g * Time.deltaTime;
-            var desiredVelocity = direction.normalized * maxSpeedChange;
+            var desiredVelocity = direction * maxSpeedChange;
             velocity += desiredVelocity;
         }
     }
