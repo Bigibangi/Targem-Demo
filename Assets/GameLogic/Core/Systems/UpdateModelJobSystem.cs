@@ -25,7 +25,7 @@ namespace GameLogic.Core.Systems {
                         parents = parts[i - 1],
                         parts = parts[i],
                         matrices = matrices[i]
-                    }.ScheduleParallel(parts.Length, 5, jobHandle);
+                    }.ScheduleParallel(parts[i].Length, 5, jobHandle);
                 }
                 jobHandle.Complete();
             }

@@ -23,12 +23,11 @@ namespace GameLogic.Core {
         public void Execute(int i) {
             var parent = parents[i/5];
             var part = parts[i];
-            part.worldRotation = mul(
-                parent.worldRotation,
-                part.worldRotation);
+            part.worldRotation =
+                parent.worldRotation;
             part.worldPosition =
                 parent.worldPosition +
-                mul(parent.worldRotation, parent.worldPosition);
+                mul(parent.worldRotation, part.localPosition);
             parts[i] = part;
 
             matrices[i] = float4x4.TRS(

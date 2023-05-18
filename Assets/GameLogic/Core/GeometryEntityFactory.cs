@@ -18,13 +18,6 @@ namespace GameLogic.Core {
         up(), right(), left(), forward(), back(), down()
     };
 
-        private static quaternion[] rotations = {
-        quaternion.identity,
-        quaternion.RotateZ(-0.5f * PI), quaternion.RotateZ(0.5f * PI),
-        quaternion.RotateX(0.5f * PI), quaternion.RotateX(-0.5f * PI),
-        quaternion.identity
-    };
-
         public GeometryEntityFactory(EcsWorld world) : base(world) {
         }
 
@@ -38,28 +31,31 @@ namespace GameLogic.Core {
             world.GetPool<UpdateModelJobTag>().Add(entity);
             ref var model = ref world.GetPool<Model>().Get(entity);
             model.root.worldPosition = Random.insideUnitSphere * 10f;
-            model.depth = 1;
+            model.depth = 2;
             model.parts = new NativeArray<ModelPart>[model.depth];
             model.matrices = new NativeArray<float4x4>[model.depth];
             for (int i = 0, length = 1; i < model.parts.Length; i++, length *= 5) {
                 model.parts[i] = new NativeArray<ModelPart>(length, Allocator.Persistent);
                 model.matrices[i] = new NativeArray<float4x4>(length, Allocator.Persistent);
             }
-            //for (int li = 1; li < model.parts.Length; li++) {
-            //    var levelParts = model.parts[li];
-            //    for (int fpi = 0; fpi < levelParts.Length; fpi += 5) {
-            //        for (int ci = 0; ci < 5; ci++) {
-            //            levelParts[fpi + ci] = CreatePart(ci);
-            //        }
-            //    }
-            //}
+            for (int li = 1; li < model.parts.Length; li++) {
+                var levelParts = model.parts[li];
+                var parents = model.parts[li - 1];
+                for (int pi = 0; pi < levelParts.Length; pi += 5) {
+                    for (int ci = 0; ci < 5; ci++) {
+                        levelParts[pi + ci] = CreatePart(ci, parents[pi]);
+                    }
+                }
+                model.parts[li] = levelParts;
+            }
             return packedEntity;
         }
 
-        private ModelPart CreatePart(int ci) =>
+        private ModelPart CreatePart(int ci, ModelPart parent) =>
             new ModelPart {
-                worldPosition = directions[ci],
-                worldRotation = rotations[ci]
+                worldPosition = parent.worldPosition + directions[ci],
+                localPosition = directions[ci],
+                worldRotation = parent.worldRotation
             };
     }
 }
