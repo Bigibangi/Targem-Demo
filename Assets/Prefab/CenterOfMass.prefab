@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 9138583717783393019}
   - component: {fileID: 9138583717783393018}
   - component: {fileID: 9138583717783393017}
-  - component: {fileID: 9138583717783393016}
-  - component: {fileID: -8044659441343161574}
   - component: {fileID: -6901915221344335006}
   m_Layer: 0
   m_Name: CenterOfMass
@@ -84,32 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &9138583717783393016
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9138583717783392903}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-8044659441343161574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9138583717783392903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6715ac6b340e9ca4fa2921baafa3317d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collider: {fileID: 9138583717783393016}
 --- !u!114 &-6901915221344335006
 MonoBehaviour:
   m_ObjectHideFlags: 0

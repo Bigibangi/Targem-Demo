@@ -19,20 +19,19 @@ namespace GameLogic.Movement.Systems {
                 ref var modelComponent = ref _models.Value.Get(entity);
                 ref var directionComponent = ref _directions.Value.Get(entity);
                 ref var movableComponent = ref _movables.Value.Get(entity) ;
-
                 ref var direction = ref directionComponent.direction;
-                ref var worldPosition = ref modelComponent.root.worldPosition;
+                ref var rootPosition = ref modelComponent.root.worldPosition;
                 ref var velocity = ref movableComponent.velocity;
                 ref var maxAcceleration = ref movableComponent.maxAcceleration;
                 ref var accelerationForce = ref movableComponent.accelerationForce;
                 var desiredVelocity = direction*accelerationForce ;
-                var maxSpeedChange = maxAcceleration * Time.deltaTime;
+                var maxSpeedChange = Time.deltaTime * accelerationForce;
                 velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange);
                 velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange);
                 velocity.z = Mathf.MoveTowards(velocity.z, desiredVelocity.z, maxSpeedChange);
                 var displacement = float3(velocity);
                 displacement *= Time.deltaTime;
-                worldPosition += displacement;
+                rootPosition += displacement;
             }
         }
     }

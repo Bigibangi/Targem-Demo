@@ -51,8 +51,9 @@ public class ProceduralDraw : MonoBehaviour {
     private void Update() {
         if (gameObject.TryGetComponent<EntityReference>(out var entityReference)) {
             entityReference.entityPack.Unpack(out var world, out var entity);
-            var model = world.GetPool<Model>().Get(entity);
+            ref var model = ref world.GetPool<Model>().Get(entity);
             gameObject.transform.localPosition = model.root.worldPosition;
+            model.root.worldRotation = gameObject.transform.rotation;
             var bounds = new Bounds(model.root.worldPosition,Vector3.one * model.depth);
             if (_matricesBuffers == null) { OnValidate(); }
             for (int i = 0; i < _matricesBuffers.Length; i++) {

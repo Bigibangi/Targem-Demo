@@ -24,6 +24,7 @@ public sealed class GravitySystem : IEcsRunSystem {
             ref var velocity = ref movable.velocity;
             var modelPosition = model.root.worldPosition;
             direction = gravityModel.root.worldPosition - modelPosition;
+            movable.accelerationForce = g / direction.magnitude;
             var maxSpeedChange = g * Time.deltaTime;
             var desiredVelocity = direction * maxSpeedChange;
             velocity += desiredVelocity;

@@ -38,21 +38,21 @@ namespace GameLogic.Core {
             world.GetPool<UpdateModelJobTag>().Add(entity);
             ref var model = ref world.GetPool<Model>().Get(entity);
             model.root.worldPosition = Random.insideUnitSphere * 10f;
-            model.depth = 2;
+            model.depth = 1;
             model.parts = new NativeArray<ModelPart>[model.depth];
             model.matrices = new NativeArray<float4x4>[model.depth];
             for (int i = 0, length = 1; i < model.parts.Length; i++, length *= 5) {
                 model.parts[i] = new NativeArray<ModelPart>(length, Allocator.Persistent);
                 model.matrices[i] = new NativeArray<float4x4>(length, Allocator.Persistent);
             }
-            for (int li = 1; li < model.parts.Length; li++) {
-                var levelParts = model.parts[li];
-                for (int fpi = 0; fpi < levelParts.Length; fpi += 5) {
-                    for (int ci = 0; ci < 5; ci++) {
-                        levelParts[fpi + ci] = CreatePart(ci);
-                    }
-                }
-            }
+            //for (int li = 1; li < model.parts.Length; li++) {
+            //    var levelParts = model.parts[li];
+            //    for (int fpi = 0; fpi < levelParts.Length; fpi += 5) {
+            //        for (int ci = 0; ci < 5; ci++) {
+            //            levelParts[fpi + ci] = CreatePart(ci);
+            //        }
+            //    }
+            //}
             return packedEntity;
         }
 

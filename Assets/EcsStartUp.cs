@@ -1,14 +1,19 @@
+using Client;
 using GameLogic.Core.Components;
 using GameLogic.Core.Systems;
 using GameLogic.Movement.Systems;
 using GameLogic.Physics.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Leopotam.EcsLite.Unity.Ugui;
+using UI;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class EcsStartUp : MonoBehaviour {
     [SerializeField] private SceneSettings _sceneSettings;
+    [SerializeField] private EcsUguiEmitter _emitter;
+    [SerializeField] private UIScreen _screen;
     private IEcsSystems _systems;
     private EcsWorld _world;
 
@@ -19,11 +24,14 @@ public class EcsStartUp : MonoBehaviour {
         _systems = new EcsSystems(_world, _sceneSettings);
         AddSystems();
         _systems
+            .AddWorld(new EcsWorld(), Idents.Worlds.Events)
 #if UNITY_EDITOR
             .Add(new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem())
 #endif
         .Inject(_world)
+        .Inject(_screen)
         .Inject(_sceneSettings)
+        .InjectUgui(_emitter)
         .Init();
     }
 
@@ -53,6 +61,7 @@ public class EcsStartUp : MonoBehaviour {
             Add(new CollisionHandlerSystem()).
             Add(new MovementSystem()).
             Add(new GravitySystem()).
+            Add(new UIButtonsHandlerSystem()).
             Add(new UpdateModelJobSystem());
     }
 }
